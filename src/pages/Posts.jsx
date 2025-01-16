@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, UseParams } from 'react-router-dom';
 import axios from 'axios';
 
  const Posts = () => {
     const { id } =useParams();
+    const [posts, setPosts] = useState([]);
     
-    
+    setPosts([{post: 1}])
     useEffect(() => {
         async function fetchPosts() {
         const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
-        console.log(data)
-        }
+        setPosts(data);
+    }
         fetchPosts();
      }, [] )
   return (
-    <div>{id}</div>
+    <div>
+        {posts.map(post => <div>{post.id}</div>)}
+    </div>
   )
 }
 
@@ -53,7 +56,15 @@ export default Posts;
         // console.log(data)
 
 
-// console.log(fetch("https://jsonplaceholder.typicode.com/posts/1"))
-
 // make it a template string: `https://jsonplaceholder.typicode.com/posts?userId=1`  
 // to make it dynamic: https://jsonplaceholder.typicode.com/posts?userId=${id} 
+
+//  and to render these posts we need data.map and we need a post and for each post we need a div. 
+// and for this you need to use useState:   const [post, setPosts] = useState([]);
+
+// this is what we need to print id:    {posts.map(post => <div>{post.id}</div>)}
+// and this is what we need to print title:     {posts.map(post => <div>{post.title}</div>)}
+
+// you need an array to map, this is why you use empty array: [] here:  const [posts, setPosts] = useState([]);
+
+// now we go to posts.html 
