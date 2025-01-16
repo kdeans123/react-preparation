@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { useParams, UseParams } from 'react-router-dom';
+import axios from 'axios';
 
  const Posts = () => {
     const { id } =useParams();
     
     
-
     useEffect(() => {
         async function fetchPosts() {
-        const data = await fetch("https://jsonplaceholder.typicode.com/posts/1")
+        const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
         console.log(data)
-        const data2 = await data.json()
-        console.log(data2);
         }
         fetchPosts();
      }, [] )
@@ -32,10 +30,30 @@ export default Posts;
 // so if we console.log(mounted) we will actually see when it mounts 
 // but instead of mounting we can fetch this code Json ... and lest const data at the beg 
 // and with that we are getting a promise, and we add async function inside of useEffect: 
-    //  async function fetchPosts() {
-    // const data = await fetch("https://jsonplaceholder.typicode.com/posts/1")
+        //  async function fetchPosts() {
+        // const data = await fetch("https://jsonplaceholder.typicode.com/posts/1")
 // and then you call a function:         fetchPosts();
 // and then you need to await data.json (await twice to get your data). and this is when axios comes, with axios we only need to await once 
+// so instead of this: 
+        // const data = await fetch("https://jsonplaceholder.typicode.com/posts/1")
+        // console.log(data)
+        // const data2 = await data.json()
+        // console.log(data2);
+// we have this axios.get  so we are getting the json from here 
+        // const data = await axios.get("https://jsonplaceholder.typicode.com/posts/1")
+        // console.log(data)
+
+// so how do we get the data from the object called "response" (previously "data"), you do the response.data: 
+        // const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1")
+        // console.log(response.data)
+
+        // OR 
+        // you can destruct it, and just rip data from the response: 
+        // const { data } = await axios.get("https://jsonplaceholder.typicode.com/posts/1")
+        // console.log(data)
 
 
 // console.log(fetch("https://jsonplaceholder.typicode.com/posts/1"))
+
+// make it a template string: `https://jsonplaceholder.typicode.com/posts?userId=1`  
+// to make it dynamic: https://jsonplaceholder.typicode.com/posts?userId=${id} 
