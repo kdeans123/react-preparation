@@ -15,9 +15,35 @@ import axios from 'axios';
         fetchPosts();
      }, [] )
   return (
-    <div>
-        {posts.map(post => <div>{post.id}</div>)}
-    </div>
+    <>
+        <div className="post__search">
+            <button>← Back</button>
+            <div className="post__search--container">
+            <label className="post__search--label">Search by Id</label>
+            <input
+                type="number"
+            />
+            <button>Enter</button>
+            </div>
+        </div>
+
+        {
+            posts.map(post => {
+                return <div className="post">
+                    <div className="post__title">post.title</div>
+                    <p className="post__body">post.body</p>
+                </div>
+            })
+        }        
+        <div className="post">
+            <div className="post__title">
+            <div className="post__title--skeleton"></div>
+            </div>
+            <div className="post__body">
+            <p className="post__body--skeleton"></p>
+            </div>
+        </div>
+    </>
   )
 }
 
@@ -67,4 +93,4 @@ export default Posts;
 
 // you need an array to map, this is why you use empty array: [] here:  const [posts, setPosts] = useState([]);
 
-// now we go to posts.html 
+// we want to map over every post and print title and body: osts.map(post => { 
