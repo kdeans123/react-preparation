@@ -5,12 +5,14 @@ import axios from 'axios';
  const Posts = () => {
     const { id } =useParams();
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
     
     setPosts([{post: 1}])
     useEffect(() => {
         async function fetchPosts() {
         const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
         setPosts(data);
+        setLoading(false);
     }
         fetchPosts();
      }, [] )
@@ -28,24 +30,27 @@ import axios from 'axios';
         </div>
 
         {
-            posts.map(post => {
-                return <div className="post">
-                    <div className="post__title">post.title</div>
-                    <p className="post__body">post.body</p>
-                </div>
-            })
-        }        
-        <div className="post">
-            <div className="post__title">
-            <div className="post__title--skeleton"></div>
-            </div>
-            <div className="post__body">
-            <p className="post__body--skeleton"></p>
-            </div>
-        </div>
+            loading 
+            ? (
+                <div className="post">
+                    <div className="post__title">
+                    <div className="post__title--skeleton"></div>
+                    </div>
+                    <div className="post__body">
+                    <p className="post__body--skeleton"></p>
+                    </div>
+                 </div>
+            ) : (
+                posts.map((post => (  
+                        <div className="post">                 
+                        <div className="post__title">{post.title}</div>
+                        <p className="post__body">{post.body}</p>
+                    </div>
+                     ))
+                )}
     </>
-  )
-}
+  );
+};
 
 export default Posts; 
 
@@ -94,3 +99,5 @@ export default Posts;
 // you need an array to map, this is why you use empty array: [] here:  const [posts, setPosts] = useState([]);
 
 // we want to map over every post and print title and body: osts.map(post => { 
+
+//  Skeleton - 
