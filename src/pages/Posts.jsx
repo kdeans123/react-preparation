@@ -41,8 +41,8 @@ import axios from 'axios';
                     </div>
                  </div>
             ) : (
-                posts.map((post => (  
-                        <div className="post">                 
+                posts.map(post => (  
+                        <div className="post" key={post.id}>                 
                         <div className="post__title">{post.title}</div>
                         <p className="post__body">{post.body}</p>
                     </div>
