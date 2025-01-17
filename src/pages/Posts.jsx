@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, UseParams } from 'react-router-dom';
+import { Link, useParams, UseParams } from 'react-router-dom';
 import axios from 'axios';
 
  const Posts = () => {
@@ -13,27 +13,31 @@ import axios from 'axios';
     }
     
     async function fetchPosts(userId) {
+        setLoading(true);
         const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${userId || id}`);
         setPosts(data);
         setLoading(false);
     }
 
-    useEffect(() => {
- 
+    useEffect(() => { 
         fetchPosts();
      }, [id] )
   
      return (
     <>
         <div className="post__search">
+            <Link to="/">
             <button>← Back</button>
+            </Link>
+            
             <div className="post__search--container">
             <label className="post__search--label">Search by Id</label>
             <input
                 type="number" 
                 value={searchId} 
-                onChange={(event) => setSearchId(event.target.value) } 
-                onKeyPress={(event) => console.log(event)} />
+                onChange={(event) => setSearchId(event.target.value)} 
+                onKeyPress={(event) => event.key === 'Enter' && onSearch()} 
+                />
             <button onClick={() => onSearch()}>Enter</button>
             </div>
         </div>
