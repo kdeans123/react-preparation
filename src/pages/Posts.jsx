@@ -9,15 +9,17 @@ import axios from 'axios';
     const [searchId, setSearchId] = useState();
 
     function onSearch() {
-
+        fetchPosts(searchId);
     }
     
-    useEffect(() => {
-        async function fetchPosts() {
-        const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
+    async function fetchPosts(userId) {
+        const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${userId || id}`);
         setPosts(data);
         setLoading(false);
     }
+
+    useEffect(() => {
+ 
         fetchPosts();
      }, [id] )
   
@@ -28,7 +30,10 @@ import axios from 'axios';
             <div className="post__search--container">
             <label className="post__search--label">Search by Id</label>
             <input
-                type="number" value={searchId} onChange={(event) => setSearchId(event.target.value) }  />
+                type="number" 
+                value={searchId} 
+                onChange={(event) => setSearchId(event.target.value) } 
+                onKeyPress={(event) => console.log(event)} />
             <button onClick={() => onSearch()}>Enter</button>
             </div>
         </div>
